@@ -1,8 +1,8 @@
 node_modules/**/*
 */node_modules/**/*
 .vscode/**
-.expo/*
-npm-debug.*
+*/.expo/*
+*/npm-debug.*
 *.jks
 *.p8
 *.p12
