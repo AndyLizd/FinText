@@ -1,16 +1,24 @@
 # FinText
 
-To use
+After clone to local, do
 ```
 cd frontend
 npm install
 ```
-You might prompt to fix dependences by 
+to install all the dependeces (ignored by git)
+
+You might be prompted to fix dependences by 
 ```
 npm audit fix
 ```
 
-You can find all the screens.js in app/screens
+And then, start expo by
+```
+npm start
+```
+
+
+You can find all the XXXscreens.js in app/screens
 
 The App.js is the main entry point, where you can change the screen shown in your phone.
 
