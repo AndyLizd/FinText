@@ -6,7 +6,7 @@ import RegisterScreen from "./app/screens/RegisterScreen"; // @ Vibha
 import LoginScreen from "./app/screens/LoginScreen"; // @ Vibha
 
 export default function App() {
-  return <WritePostScreen stock_id="abc123" />;
-  // return <LoginScreen />;
+  // return <WritePostScreen stock_id="abc123" />;
+  return <SearchScreen />;
   // return <SearchScreen />;
 }
