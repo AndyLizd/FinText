@@ -17,16 +17,16 @@ const stocks = {
   },
 };
 
-const postOnPress = () => console.log("POST");
-const userOnPress = () => console.log("press user");
-
-function MainScreen(prop) {
+function MainScreen({ setPage }) {
   const stock = stocks["abc123"];
+
+  const postOnPress = () => console.log("POST");
+  const userOnPress = () => console.log("press user");
 
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
-        <StockHeader stock_id="TSLA" />
+        <StockHeader stock_id="TSLA" setPage={setPage} />
       </View>
 
       <View style={styles.userContainer}>

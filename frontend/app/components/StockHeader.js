@@ -4,7 +4,7 @@ import AppText from "./AppText";
 import { FontAwesome } from "@expo/vector-icons";
 import colors from "../config/colors";
 
-function StockHeader({ stock_id, temp_sentiment = 95.5 }) {
+function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
   const stocks = {
     TSLA: {
       name: "TSLA",
@@ -14,7 +14,10 @@ function StockHeader({ stock_id, temp_sentiment = 95.5 }) {
   const [like, setLike] = useState(false);
   const stock = stocks[stock_id];
 
-  const searchOnPress = () => console.log("to search");
+  const searchOnPress = () => {
+    console.log("to search");
+    setPage("search");
+  };
 
   return (
     <View style={styles.container}>
