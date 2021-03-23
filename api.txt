@@ -1,0 +1,3 @@
+wss://ws.finnhub.io?token=c1cftpv48v6scqmqurig
+
+{"type":"subscribe", "symbol": "AAPL"}
