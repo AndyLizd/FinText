@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import AppText from "./AppText";
 import { FontAwesome } from "@expo/vector-icons";
+import { io } from "socket.io-client";
+
 import colors from "../config/colors";
+import connection from "../config/connection";
 
 function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
-  const stocks = {
-    TSLA: {
-      name: "TSLA",
-      price: 214.5,
-    },
-  };
+  // const stocks = {
+  //   TSLA: {
+  //     name: "TSLA",
+  //     price: 214.5,
+  //   },
+  // };
+  // const stock = stocks[stock_id];
+
   const [like, setLike] = useState(false);
-  const stock = stocks[stock_id];
+
+  const [stock, setStock] = useState({});
+
+  useEffect(() => {
+    console.log("set up the stock socket");
+    const socket = io.connect(connection.backendIp);
+    socket.on("stock", (data) => {
+      // console.log("something", data.APPL);
+      setStock(data[stock_id]);
+    });
+  }, []);
 
   const searchOnPress = () => {
     console.log("to search");

@@ -8,25 +8,16 @@ import colors from "../config/colors";
 import Screen from "../components/Screen";
 import StockHeader from "../components/StockHeader";
 
-const stocks = {
-  abc123: {
-    name: "TSLA",
-    price: 214.45,
-    sentiment: 121,
-    like: false,
-  },
-};
-
 function MainScreen({ setPage }) {
-  const stock = stocks["abc123"];
-
   const postOnPress = () => console.log("POST");
   const userOnPress = () => console.log("press user");
+
+  const stock_id = "APPL";
 
   return (
     <Screen style={styles.container}>
       <View style={styles.header}>
-        <StockHeader stock_id="TSLA" setPage={setPage} />
+        <StockHeader stock_id={stock_id} setPage={setPage} />
       </View>
 
       <View style={styles.userContainer}>
