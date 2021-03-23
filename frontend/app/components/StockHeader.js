@@ -20,13 +20,21 @@ function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
 
   const [stock, setStock] = useState({});
 
+  // TODO: unsubscribe socket when component un-mount
   useEffect(() => {
     console.log("set up the stock socket");
     const socket = io.connect(connection.backendIp);
-    socket.on("stock", (data) => {
-      // console.log("something", data.APPL);
-      setStock(data[stock_id]);
+
+    socket.on("stock:AAPL", (data) => {
+      setStock(JSON.parse(data));
+      // console.log("something", JSON.parse(data));
     });
+
+    // test
+    // socket.on("stock", (data) => {
+    //   console.log("something", data);
+    //   setStock(data[stock_id]);
+    // });
   }, []);
 
   const searchOnPress = () => {
@@ -67,7 +75,7 @@ function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
         <AppText
           style={{ fontSize: 20, color: colors.secondary, fontWeight: "bold" }}
         >
-          sentiment {temp_sentiment}
+          sentiment {stock.sentiment}
         </AppText>
       </View>
     </View>

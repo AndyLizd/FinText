@@ -10,16 +10,19 @@ var output = document.getElementById("output");
 btn.addEventListener("click", () => {
   socket.emit("tweet", {
     message: message.value,
-    handle: handle.value,
+    user: user.value,
+    sentiment: sentiment.value,
   });
 });
 
 // listen for events
 socket.on("tweet", (data) => {
   output.innerHTML +=
-    "<p><strong>" + data.handle + ": </strong>" + data.message + "</p>";
+    "<p><strong>" +
+    data.user +
+    ": </strong>" +
+    data.message +
+    " with " +
+    data.sentiment +
+    "</p>";
 });
-
-
-
-
