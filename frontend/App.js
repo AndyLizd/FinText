@@ -7,7 +7,7 @@ import LoginScreen from "./app/screens/LoginScreen"; // @ Vibha
 import MainScreen from "./app/screens/MainScreen"; // @ Andy
 
 export default function App() {
-  const [page, setPage] = useState("main");
+  const [page, setPage] = useState("login");
 
   const renderContent = (page) => {
     switch (page) {
@@ -16,7 +16,9 @@ export default function App() {
       case "main":
         return <MainScreen setPage={setPage} />;
       case "login":
-        return <LoginScreen />;
+        return <LoginScreen setPage={setPage} />;
+      case "register":
+        return <RegisterScreen setPage={setPage} />;
       default:
         return <MainPost />;
     }

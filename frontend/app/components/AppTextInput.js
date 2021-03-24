@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   container: {
     color: "white",
     backgroundColor: defaultStyles.colors.gray,
-    borderRadius: 15,
+    borderRadius: 10,
     flexDirection: "row",
     padding: 15,
     marginVertical: 10,
