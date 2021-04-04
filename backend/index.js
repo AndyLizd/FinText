@@ -1,9 +1,17 @@
 const express = require("express");
 const socket = require("socket.io");
 const WebSocket = require("ws");
-
 const app = express();
 
+const config = require("./config");
+const priceHistory = require("./routes/priceHistory");
+const sentimentApi = require("./routes/sentiment");
+
+app.use(express.json());
+app.use("/api/priceHistory", priceHistory);
+app.use("/api/sentiment", sentimentApi);
+
+// socket
 const server = app.listen(4000, () => {
   console.log("Listen to Port 4000");
 });
@@ -25,7 +33,9 @@ io.on("connection", (socket) => {
 // stock socket
 const sentiment = { AAPL: 92.5 };
 
-const stockWS = new WebSocket("wss://ws.finnhub.io?token=c1cftpv48v6scqmqurig");
+const stockWS = new WebSocket(
+  "wss://ws.finnhub.io?token=" + config.stockApiKey
+);
 
 // Connection opened -> Subscribe
 stockWS.addEventListener("open", function (event) {
