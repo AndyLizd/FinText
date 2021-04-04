@@ -6,6 +6,8 @@ import Screen from "../components/Screen";
 import StockHeader from "../components/StockHeader";
 import TweetBox from "../components/TweetBox";
 import Post from "../components/Post";
+import AppPlot from "../components/AppPlot";
+import AppText from "../components/AppText";
 
 function MainScreen({ setPage }) {
   const stock_id = "AAPL";
@@ -14,6 +16,10 @@ function MainScreen({ setPage }) {
     <Screen style={styles.container}>
       <View style={styles.headerContainer}>
         <StockHeader stock_id={stock_id} setPage={setPage} />
+      </View>
+
+      <View style={styles.plotContainer}>
+        <AppPlot stock_id={stock_id} />
       </View>
 
       <View style={styles.TweetBoxContainer}>
@@ -37,13 +43,15 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   headerContainer: {
-    flex: 2,
-    height: "20%",
+    flex: 0.5,
     width: "100%",
-    marginBottom: 30,
+  },
+  plotContainer: {
+    flex: 2.5,
+    width: "100%",
   },
   TweetBoxContainer: {
-    flex: 3,
+    flex: 3.5,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    minHeight: 15,
+    minHeight: 30,
   },
 });
 

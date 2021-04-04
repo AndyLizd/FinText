@@ -11,9 +11,10 @@ import { TextInput } from "react-native-paper";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 // TODO: call Firebase backend
-const loginOnPress = (account, password) => {
+const loginOnPress = (account, password, setPage) => {
   console.log("account", account);
   console.log("password", password);
+  setPage("main");
 };
 
 const registerOnPress = (setPage) => {
@@ -49,7 +50,7 @@ function LoginScreen({ setPage }) {
         title="LOGIN"
         width="85%"
         marginVertical={30}
-        onPress={() => loginOnPress(account, password)}
+        onPress={() => loginOnPress(account, password, setPage)}
       />
       <TouchableHighlight onPress={() => registerOnPress(setPage)}>
         <AppText>register</AppText>

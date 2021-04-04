@@ -18,7 +18,11 @@ function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
 
   const [like, setLike] = useState(false);
 
-  const [stock, setStock] = useState({});
+  const [stock, setStock] = useState({
+    id: stock_id,
+    price: 122.9,
+    sentiment: 85.2,
+  });
 
   // TODO: unsubscribe socket when component un-mount
   useEffect(() => {
@@ -46,7 +50,7 @@ function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
     <View style={styles.container}>
       <View style={styles.subcontainer}>
         <TouchableOpacity onPress={searchOnPress}>
-          <AppText style={styles.text}>{stock.name} </AppText>
+          <AppText style={styles.text}>{stock_id} </AppText>
         </TouchableOpacity>
         {/* </View>
       <View style={[styles.subcontainer, { flex: 0.5 }]}> */}

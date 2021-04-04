@@ -7,6 +7,31 @@ import colors from "../config/colors";
 import connection from "../config/connection";
 import Tweet from "./Tweet";
 
+const temp = [
+  {
+    message: "It is still over-priced. Be patient.",
+    user: "Andy",
+    sentiment: "BEAR",
+  },
+  {
+    message: "The recent financial report looks great!",
+    user: "Andy",
+    sentiment: "BULL",
+  },
+  { message: "FED is the best", user: "Andy", sentiment: "BULL" },
+  {
+    message:
+      "I am concerned about the accident in the supply chain in Japan. It will have a great impact to the market. I think people should be careful.",
+    user: "Andy",
+    sentiment: "BEAR",
+  },
+  {
+    message: "I just lost 1 million. LOL",
+    user: "Andy",
+    sentiment: "BEAR",
+  },
+];
+
 function TweetBox(props) {
   const [tweets, setTweets] = useState([]); // TODO: make it a list
   const [socket, setSocket] = useState({});
@@ -17,6 +42,10 @@ function TweetBox(props) {
     socket.on("tweet", (data) => {
       setTweets((tweets) => [data, ...tweets]);
     });
+
+    // temporary
+    setTweets(temp);
+
     setSocket(socket);
   }, []);
 

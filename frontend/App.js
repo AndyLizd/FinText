@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import SearchScreen from "./app/screens/SearchScreen"; // @ Parth
-import RegisterScreen from "./app/screens/RegisterScreen"; // @ Vibha
-import LoginScreen from "./app/screens/LoginScreen"; // @ Vibha
-import MainScreen from "./app/screens/MainScreen"; // @ Andy
+import SearchScreen from "./app/screens/SearchScreen";
+import RegisterScreen from "./app/screens/RegisterScreen";
+import LoginScreen from "./app/screens/LoginScreen";
+import MainScreen from "./app/screens/MainScreen";
 
 export default function App() {
   const [page, setPage] = useState("main");
