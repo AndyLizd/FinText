@@ -21,11 +21,12 @@ const setUpStockSocket = (io, stocks) => {
     try {
       const updates = JSON.parse(event.data).data;
       for (cur of updates) {
+        const curSentiment = sentiment.find((stock) => stock.id === cur.s).cur;
         const stock = {
           name: cur.s,
-          price: cur.p,
+          price: Number.parseFloat(cur.p).toFixed(2),
           time: cur.t,
-          sentiment: sentiment.find((stock) => stock.id === cur.s).cur,
+          sentiment: Number.parseFloat(curSentiment).toFixed(1),
         };
         const elem = sentiment.find((stock) => stock.id === cur.s);
         // console.log(elem.id, elem.cur);
