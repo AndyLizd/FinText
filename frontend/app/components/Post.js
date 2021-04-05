@@ -20,7 +20,7 @@ function Post({ stockId }) {
   // TODO: disconnect component un-mount
 
   // bull/bear button on press
-  const postOnPress = (post, sentiment) => {
+  const postOnPress = (post, setPost, sentiment) => {
     socket.emit("tweet:" + stockId, {
       message: post,
       user: "andy", // TODO: change the user once the user pages are set up
@@ -34,6 +34,8 @@ function Post({ stockId }) {
       "/sentiment/" +
       sentiment;
     fetch(url, { method: "PUT" });
+
+    setPost("");
   };
 
   return (
@@ -51,6 +53,7 @@ function Post({ stockId }) {
           placeholder="Post your opinion with BULL/BEAR"
           placeholderTextColor={colors.gray}
           style={styles.postTextInput}
+          value={post}
           onChangeText={(text) => {
             setPost(text);
           }}
@@ -63,7 +66,7 @@ function Post({ stockId }) {
             width="16%"
             fontSize={12}
             padding={6}
-            onPress={() => postOnPress(post, "BULL")}
+            onPress={() => postOnPress(post, setPost, "BULL")}
           />
           <AppButton
             color="secondary"
@@ -71,7 +74,7 @@ function Post({ stockId }) {
             width="16%"
             fontSize={12}
             padding={6}
-            onPress={() => postOnPress(post, "BEAR")}
+            onPress={() => postOnPress(post, setPost, "BEAR")}
           />
         </View>
       </View>

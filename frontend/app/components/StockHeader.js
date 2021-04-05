@@ -54,7 +54,7 @@ function StockHeader({ stockId, setPage }) {
         {like ? (
           <FontAwesome
             name="heart"
-            size={30}
+            size={26}
             color="#f06292"
             onPress={() => setLike(false)}
           />
@@ -69,14 +69,14 @@ function StockHeader({ stockId, setPage }) {
       </View>
       <View style={styles.subcontainer}>
         <AppText style={[styles.text, { color: colors.primary }]}>
-          $ {Number.parseFloat(stock.price).toFixed(2)}
+          $ {stock.price}
         </AppText>
       </View>
       <View style={[styles.subcontainer, { flex: 1.4 }]}>
         <AppText
           style={{ fontSize: 20, color: colors.secondary, fontWeight: "bold" }}
         >
-          sentiment {Number.parseFloat(stock.sentiment).toFixed(1)}
+          sentiment {stock.sentiment}
         </AppText>
       </View>
     </View>
