@@ -9,7 +9,7 @@ import { TextInput } from "react-native-gesture-handler";
 import colors from "../config/colors";
 import AppText from "./AppText";
 
-function Post(props) {
+function Post({ stockId }) {
   const [post, setPost] = useState("");
   const [socket, setSocket] = useState({});
 
@@ -21,11 +21,19 @@ function Post(props) {
 
   // bull/bear button on press
   const postOnPress = (post, sentiment) => {
-    socket.emit("tweet", {
+    socket.emit("tweet:" + stockId, {
       message: post,
       user: "andy", // TODO: change the user once the user pages are set up
       sentiment: sentiment,
     });
+
+    const url =
+      connection.backendIp +
+      "/api/sentiment/id/" +
+      stockId +
+      "/sentiment/" +
+      sentiment;
+    fetch(url, { method: "PUT" });
   };
 
   return (

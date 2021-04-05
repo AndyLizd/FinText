@@ -5,9 +5,9 @@ import connection from "../config/connection";
 import CandlePlot from "./CandlePlot";
 import LinearPlot from "./LinearPlot";
 
-const fetchPrices = async (stock_id, setPrices) => {
+const fetchPrices = async (stockId, setPrices) => {
   const url =
-    connection.backendIp + "/api/priceHistory/id/" + stock_id + "/duration/day";
+    connection.backendIp + "/api/priceHistory/id/" + stockId + "/duration/day";
   console.log(url);
   try {
     fetch(url)
@@ -21,11 +21,11 @@ const fetchPrices = async (stock_id, setPrices) => {
   }
 };
 
-function AppPlot({ stock_id }) {
+function AppPlot({ stockId }) {
   const [prices, setPrices] = useState({});
 
   useEffect(() => {
-    fetchPrices(stock_id, setPrices);
+    fetchPrices(stockId, setPrices);
   }, []);
 
   const mode = ["candle", "linear"][0];

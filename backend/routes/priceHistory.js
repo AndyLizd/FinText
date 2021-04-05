@@ -5,9 +5,9 @@ const fetch = require("node-fetch");
 const config = require("../config");
 
 const times = {
-  day: { offset: 24 * 3600, resolution: '5' },
-  month: { offset: 24 * 3600 * 30, resolution: '60' },
-  year: { offset: 24 * 3600 * 365, resolution: 'W' },
+  day: { offset: 24 * 3600, resolution: "15" },
+  month: { offset: 24 * 3600 * 30, resolution: "60" },
+  year: { offset: 24 * 3600 * 365, resolution: "W" },
 };
 
 router.get("/id/:id/duration/:duration", (req, res) => {
@@ -17,7 +17,7 @@ router.get("/id/:id/duration/:duration", (req, res) => {
   const resolution = times[duration].resolution;
   const curTime = new Date();
   let weekendOffset = 0;
-  if (duration == 'day') {
+  if (duration == "day") {
     switch (curTime.getDay()) {
       case 0:
         weekendOffset = 2 * 24 * 3600;
@@ -49,7 +49,7 @@ router.get("/id/:id/duration/:duration", (req, res) => {
   try {
     fetch(url)
       .then((response) => response.json())
-      .then((prices) => prices.o)
+      // .then((prices) => prices.o)
       .then((prices) => res.send(prices));
   } catch (err) {
     console.log("Fail to fetch data from Finnhub backend", err);

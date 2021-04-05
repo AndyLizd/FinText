@@ -3,7 +3,7 @@ const router = express.Router();
 
 // temporay list of available stocks, will move to database later
 const stocksTickers = [
-  "AMAZ",
+  "AMZN",
   "AAPL",
   "NFLX",
   "TSLA",
@@ -37,24 +37,25 @@ const randomWalk = (num) => {
   );
 };
 
-const initSentiment = (config) => {
-  const history = randomWalk(50);
-  const bullCount = Math.round(
-    (history[history.length - 1] / 100) * windowSize
-  );
-  const bearCount = windowSize - bullCount;
-  const sentiment = stocksTickers.map((ticker) => ({
-    id: ticker,
-    cur: history[history.length-1],
-    bullCount: bullCount,
-    bearCount: bearCount,
-    count: 0,
-    rotate: true,
-    history: history,
-  }));
+const initSentiment = () =>
+  stocksTickers.map((ticker) => {
+    const history = randomWalk(30);
+    const bullCount = Math.round(
+      (history[history.length - 1] / 100) * windowSize
+    );
+    const bearCount = windowSize - bullCount;
 
-  return sentiment;
-};
+    const elem = {
+      id: ticker,
+      cur: history[history.length - 1],
+      bullCount: bullCount,
+      bearCount: bearCount,
+      count: 0,
+      rotate: true,
+      history: history,
+    };
+    return elem;
+  });
 
 const sentiment = initSentiment();
 
@@ -66,8 +67,8 @@ router.put("/id/:id/sentiment/:sentiment", (req, res) => {
   const stock = sentiment.find((stock) => stock.id === req.params.id);
   if (req.params.sentiment == "BULL") stock.bullCount++;
   else if (req.params.sentiment == "BEAR") stock.bearCount++;
-  
-  stock.cur = stock.bullCount / (stock.bearCount + stock.bullCount);
+
+  stock.cur = (stock.bullCount / (stock.bearCount + stock.bullCount)) * 100;
 
   if (stock.rotate && stock.bullCount != 0) {
     stock.bullCount--;
@@ -86,4 +87,4 @@ router.put("/id/:id/sentiment/:sentiment", (req, res) => {
   res.send(stock);
 });
 
-module.exports = router;
+module.exports = { router, sentiment };

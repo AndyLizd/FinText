@@ -32,14 +32,14 @@ const temp = [
   },
 ];
 
-function TweetBox(props) {
+function TweetBox({ stockId }) {
   const [tweets, setTweets] = useState([]); // TODO: make it a list
   const [socket, setSocket] = useState({});
 
   useEffect(() => {
     // receive any new tweets from the backend by socket.io
     const socket = io.connect(connection.backendIp);
-    socket.on("tweet", (data) => {
+    socket.on("tweet:" + stockId, (data) => {
       setTweets((tweets) => [data, ...tweets]);
     });
 

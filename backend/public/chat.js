@@ -6,9 +6,11 @@ var handle = document.getElementById("handle"); // user
 var btn = document.getElementById("send");
 var output = document.getElementById("output");
 
+const channel = "tweet:AAPL";
+
 // emit events
 btn.addEventListener("click", () => {
-  socket.emit("tweet", {
+  socket.emit(channel, {
     message: message.value,
     user: user.value,
     sentiment: sentiment.value,
@@ -16,7 +18,7 @@ btn.addEventListener("click", () => {
 });
 
 // listen for events
-socket.on("tweet", (data) => {
+socket.on(channel, (data) => {
   output.innerHTML +=
     "<p><strong>" +
     data.user +

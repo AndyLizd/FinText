@@ -7,29 +7,21 @@ import { io } from "socket.io-client";
 import colors from "../config/colors";
 import connection from "../config/connection";
 
-function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
-  // const stocks = {
-  //   TSLA: {
-  //     name: "TSLA",
-  //     price: 214.5,
-  //   },
-  // };
-  // const stock = stocks[stock_id];
-
+function StockHeader({ stockId, setPage }) {
   const [like, setLike] = useState(false);
 
   const [stock, setStock] = useState({
-    id: stock_id,
-    price: 122.9,
-    sentiment: 85.2,
+    id: stockId,
+    price: 0,
+    sentiment: 0,
   });
 
   // TODO: unsubscribe socket when component un-mount
   useEffect(() => {
-    console.log("set up the stock socket");
+    const channel = "stock:" + stockId;
     const socket = io.connect(connection.backendIp);
 
-    socket.on("stock:AAPL", (data) => {
+    socket.on(channel, (data) => {
       setStock(JSON.parse(data));
       // console.log("something", JSON.parse(data));
     });
@@ -39,7 +31,12 @@ function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
     //   console.log("something", data);
     //   setStock(data[stock_id]);
     // });
-  }, []);
+
+    // unmount
+    return () => {
+      socket.removeAllListeners(channel);
+    };
+  }, [stockId]);
 
   const searchOnPress = () => {
     console.log("to search");
@@ -50,7 +47,7 @@ function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
     <View style={styles.container}>
       <View style={styles.subcontainer}>
         <TouchableOpacity onPress={searchOnPress}>
-          <AppText style={styles.text}>{stock_id} </AppText>
+          <AppText style={styles.text}>{stockId} </AppText>
         </TouchableOpacity>
         {/* </View>
       <View style={[styles.subcontainer, { flex: 0.5 }]}> */}
@@ -64,7 +61,7 @@ function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
         ) : (
           <FontAwesome
             name="heart-o"
-            size={30}
+            size={26}
             color="#f06292"
             onPress={() => setLike(true)}
           />
@@ -72,14 +69,14 @@ function StockHeader({ stock_id, setPage, temp_sentiment = 95.5 }) {
       </View>
       <View style={styles.subcontainer}>
         <AppText style={[styles.text, { color: colors.primary }]}>
-          $ {stock.price}
+          $ {Number.parseFloat(stock.price).toFixed(2)}
         </AppText>
       </View>
       <View style={[styles.subcontainer, { flex: 1.4 }]}>
         <AppText
           style={{ fontSize: 20, color: colors.secondary, fontWeight: "bold" }}
         >
-          sentiment {stock.sentiment}
+          sentiment {Number.parseFloat(stock.sentiment).toFixed(1)}
         </AppText>
       </View>
     </View>

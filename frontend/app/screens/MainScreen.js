@@ -9,25 +9,23 @@ import Post from "../components/Post";
 import AppPlot from "../components/AppPlot";
 import AppText from "../components/AppText";
 
-function MainScreen({ setPage }) {
-  const stock_id = "AAPL";
-
+function MainScreen({ setPage, stockId = "AAPL" }) {
   return (
     <Screen style={styles.container}>
       <View style={styles.headerContainer}>
-        <StockHeader stock_id={stock_id} setPage={setPage} />
+        <StockHeader stockId={stockId} setPage={setPage} />
       </View>
 
       <View style={styles.plotContainer}>
-        <AppPlot stock_id={stock_id} />
+        <AppPlot stockId={stockId} />
       </View>
 
       <View style={styles.TweetBoxContainer}>
-        <TweetBox />
+        <TweetBox stockId={stockId} />
       </View>
 
       <View style={styles.PostContainer}>
-        <Post />
+        <Post stockId={stockId} />
       </View>
     </Screen>
   );
