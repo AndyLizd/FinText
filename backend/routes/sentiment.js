@@ -60,7 +60,9 @@ const initSentiment = () =>
 const sentiment = initSentiment();
 
 router.get("/id/:id", (req, res) => {
-  res.send(sentiment.find((stock) => stock.id === req.params.id));
+  const stock = sentiment.find((stock) => stock.id === req.params.id);
+  const result = (({ id, cur, history }) => ({ id, cur, history }))(stock);
+  res.send(result);
 });
 
 router.put("/id/:id/sentiment/:sentiment", (req, res) => {

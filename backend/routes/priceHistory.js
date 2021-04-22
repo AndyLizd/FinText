@@ -5,7 +5,7 @@ const fetch = require("node-fetch");
 const config = require("../config");
 
 const times = {
-  day: { offset: 24 * 3600, resolution: "15" },
+  day: { offset: 12 * 3600, resolution: "15" }, // last 12 hours
   month: { offset: 24 * 3600 * 30, resolution: "60" },
   year: { offset: 24 * 3600 * 365, resolution: "W" },
 };
@@ -29,6 +29,7 @@ router.get("/id/:id/duration/:duration", (req, res) => {
         weekendOffset = 0;
     }
   }
+
   const endTime = Math.floor(curTime.getTime() / 1000 - weekendOffset);
   const startTime = Math.floor(endTime - times[duration].offset);
 
