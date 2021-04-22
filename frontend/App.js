@@ -13,7 +13,7 @@ export default function App() {
       case "search":
         return <SearchScreen setPage={setPage} />;
       case "main":
-        return <MainScreen setPage={setPage} stockId="AAPL" />;
+        return <MainScreen setPage={setPage} stockId="TSLA" />;
       case "login":
         return <LoginScreen setPage={setPage} />;
       case "register":

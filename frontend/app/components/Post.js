@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
+import { StyleSheet, View, KeyboardAvoidingView, Alert } from "react-native";
 import { io } from "socket.io-client";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -8,10 +8,12 @@ import connection from "../config/connection";
 import { TextInput } from "react-native-gesture-handler";
 import colors from "../config/colors";
 import AppText from "./AppText";
+import generalConfig from "../config/general";
 
 function Post({ stockId }) {
   const [post, setPost] = useState("");
   const [socket, setSocket] = useState({});
+  const [canPost, setCanPost] = useState(true);
 
   useEffect(() => {
     const socket = io.connect(connection.backendIp);
@@ -27,13 +29,25 @@ function Post({ stockId }) {
       sentiment: sentiment,
     });
 
-    const url =
-      connection.backendIp +
-      "/api/sentiment/id/" +
-      stockId +
-      "/sentiment/" +
-      sentiment;
-    fetch(url, { method: "PUT" });
+    if (canPost) {
+      const url =
+        connection.backendIp +
+        "/api/sentiment/id/" +
+        stockId +
+        "/sentiment/" +
+        sentiment;
+      fetch(url, { method: "PUT" });
+      // limit frequent post
+      setCanPost(false);
+      setTimeout(() => setCanPost(true), generalConfig.postInterval);
+    } else {
+      Alert.alert(
+        "Chill out, my friend!",
+        "You had a post within the last 10 seconds. Your new post won't count into the sentiment index.",
+        [{ text: "Okie dokie" }],
+        { cancelable: false }
+      );
+    }
 
     setPost("");
   };

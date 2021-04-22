@@ -8,32 +8,53 @@ import LinearPlot from "./LinearPlot";
 const fetchPrices = async (stockId, setPrices) => {
   const url =
     connection.backendIp + "/api/priceHistory/id/" + stockId + "/duration/day";
-  console.log(url);
   try {
     fetch(url)
       .then((res) => res.json())
       .then((res) => {
         setPrices(res);
-        console.log(res.o.length);
+        // console.log(res.o.length);
       });
   } catch (err) {
-    console.log("Fail to fetch data from the backend. ", err);
+    console.log("Fail to fetch stock prices data. ", err);
   }
 };
 
-function AppPlot({ stockId }) {
+const fetchSentiments = async (stockId, setSentiments) => {
+  const url = connection.backendIp + "/api/sentiment/id/" + stockId;
+  // console.log(url);
+  try {
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => {
+        const plotable = {
+          x: [...Array(res.history.length).keys()],
+          y: res.history,
+        };
+        // console.log(plotable);
+        setSentiments(plotable);
+      });
+  } catch (err) {
+    console.log("Fail to fetch sentiments data. ", err);
+  }
+};
+
+function AppPlot({ stockId, plotType }) {
   const [prices, setPrices] = useState({});
+  const [sentiments, setSentiments] = useState({});
 
   useEffect(() => {
     fetchPrices(stockId, setPrices);
-  }, []);
+    fetchSentiments(stockId, setSentiments);
+  }, [stockId]);
 
-  const mode = ["candle", "linear"][0];
-
-  return mode === "linear" ? (
-    <LinearPlot rawData={{ x: prices.t, y: prices.o }} color={colors.primary} />
-  ) : (
+  return plotType === "candle" ? (
     <CandlePlot rawData={prices} />
+  ) : (
+    <LinearPlot
+      rawData={{ x: sentiments.x, y: sentiments.y }}
+      color="rgba(253,216,53, 0.85)"
+    />
   );
 }
 

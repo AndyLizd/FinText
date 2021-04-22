@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 import colors from "../config/colors";
 import connection from "../config/connection";
 
-function StockHeader({ stockId, setPage }) {
+function StockHeader({ stockId, setPage, setPlotType }) {
   const [like, setLike] = useState(false);
 
   const [stock, setStock] = useState({
@@ -16,13 +16,19 @@ function StockHeader({ stockId, setPage }) {
     sentiment: 0,
   });
 
-  // TODO: unsubscribe socket when component un-mount
   useEffect(() => {
     const channel = "stock:" + stockId;
     const socket = io.connect(connection.backendIp);
 
+    let lastUpdateTime = Date.now();
+    const intervalTime = 1500;
+
     socket.on(channel, (data) => {
-      setStock(JSON.parse(data));
+      // update the price for at least intervalTime
+      if (Date.now() > lastUpdateTime + intervalTime) {
+        setStock(JSON.parse(data));
+        lastUpdateTime = Date.now();
+      }
       // console.log("something", JSON.parse(data));
     });
 
@@ -68,16 +74,24 @@ function StockHeader({ stockId, setPage }) {
         )}
       </View>
       <View style={styles.subcontainer}>
-        <AppText style={[styles.text, { color: colors.primary }]}>
-          $ {stock.price}
-        </AppText>
+        <TouchableOpacity onPress={() => setPlotType("candle")}>
+          <AppText style={[styles.text, { color: colors.primary }]}>
+            $ {stock.price}
+          </AppText>
+        </TouchableOpacity>
       </View>
       <View style={[styles.subcontainer, { flex: 1.4 }]}>
-        <AppText
-          style={{ fontSize: 20, color: colors.secondary, fontWeight: "bold" }}
-        >
-          sentiment {stock.sentiment}
-        </AppText>
+        <TouchableOpacity onPress={() => setPlotType("sentiment")}>
+          <AppText
+            style={{
+              fontSize: 20,
+              color: colors.secondary,
+              fontWeight: "bold",
+            }}
+          >
+            sentiment {stock.sentiment}
+          </AppText>
+        </TouchableOpacity>
       </View>
     </View>
   );

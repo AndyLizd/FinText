@@ -5,11 +5,12 @@ import colors from "../config/colors";
 
 const plotLayout = {
   margin: { l: 30, r: 15, b: 0, t: 5, pad: 0 },
+  dragmode: "pan",
   plot_bgcolor: colors.black,
   paper_bgcolor: colors.black,
   nticks: 5,
   yaxis: {
-    fixedrange: true,
+    // fixedrange: true,
     tickfont: { color: "white", size: 8 },
     nticks: 8,
     tickformat: ".1f",

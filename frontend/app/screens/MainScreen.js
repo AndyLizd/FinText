@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import colors from "../config/colors";
@@ -9,15 +9,21 @@ import Post from "../components/Post";
 import AppPlot from "../components/AppPlot";
 import AppText from "../components/AppText";
 
-function MainScreen({ setPage, stockId = "AAPL" }) {
+function MainScreen({ setPage, stockId }) {
+  const [plotType, setPlotType] = useState("candle");
+
   return (
     <Screen style={styles.container}>
       <View style={styles.headerContainer}>
-        <StockHeader stockId={stockId} setPage={setPage} />
+        <StockHeader
+          stockId={stockId}
+          setPage={setPage}
+          setPlotType={setPlotType}
+        />
       </View>
 
       <View style={styles.plotContainer}>
-        <AppPlot stockId={stockId} />
+        <AppPlot stockId={stockId} plotType={plotType} />
       </View>
 
       <View style={styles.TweetBoxContainer}>
