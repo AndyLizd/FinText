@@ -43,7 +43,7 @@ function Post({ stockId }) {
     } else {
       Alert.alert(
         "Chill out, my friend!",
-        "You had a post within the last 10 seconds. Your new post won't count into the sentiment index.",
+        "You had post within the last 10 seconds. Your new post won't count into the sentiment index.",
         [{ text: "Okie dokie" }],
         { cancelable: false }
       );

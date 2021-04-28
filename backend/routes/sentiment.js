@@ -1,19 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
-// temporay list of available stocks, will move to database later
-const stocksTickers = [
-  "AMZN",
-  "AAPL",
-  "NFLX",
-  "TSLA",
-  "GOOGL",
-  "AMD",
-  "ADBE",
-  "NVDA",
-  "MSFT",
-  "IBM",
-];
+const stocksTickers = require("../tickersList").tickers;
 
 const windowSize = 50;
 const alpha = 0.2; // update weight

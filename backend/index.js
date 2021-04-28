@@ -4,6 +4,7 @@ const app = express();
 
 const priceHistory = require("./routes/priceHistory");
 const { router: sentimentApi } = require("./routes/sentiment");
+const tickers = require("./routes/tickers");
 const setUpTweetSocket = require("./sockets/tweetSocket");
 const setUpStockSocket = require("./sockets/stockSocket");
 
@@ -19,6 +20,7 @@ const stocks = ["AAPL", "AMZN", "TSLA"];
 // RESTful API
 app.use("/api/priceHistory", priceHistory);
 app.use("/api/sentiment", sentimentApi);
+app.use("/api/tickers", tickers);
 
 // Socket API
 const io = socket(server);
