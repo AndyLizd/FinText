@@ -6,7 +6,7 @@ import LoginScreen from "./app/screens/LoginScreen";
 import MainScreen from "./app/screens/MainScreen";
 
 export default function App() {
-  const [page, setPage] = useState("search");
+  const [page, setPage] = useState("login");
   const [stockId, setStockId] = useState("TSLA");
 
   const renderContent = (page) => {

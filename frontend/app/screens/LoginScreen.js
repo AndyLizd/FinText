@@ -9,6 +9,7 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 import { TextInput } from "react-native-paper";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { firebase, signInWithGoogleAsync } from "../auth/firebase";
 
 // TODO: call Firebase backend
 const loginOnPress = (account, password, setPage) => {
@@ -19,6 +20,10 @@ const loginOnPress = (account, password, setPage) => {
 
 const registerOnPress = (setPage) => {
   setPage("register");
+};
+
+const loginWithGoogleOnPress = (setPage) => {
+  signInWithGoogleAsync(setPage);
 };
 
 function LoginScreen({ setPage }) {
@@ -52,8 +57,20 @@ function LoginScreen({ setPage }) {
         marginVertical={30}
         onPress={() => loginOnPress(account, password, setPage)}
       />
-      <TouchableHighlight onPress={() => registerOnPress(setPage)}>
+      <TouchableHighlight
+        style={styles.textButton}
+        onPress={() => registerOnPress(setPage)}
+      >
         <AppText>register</AppText>
+      </TouchableHighlight>
+
+      <AppText style={{ color: colors.secondary, fontSize: 16 }}>or</AppText>
+
+      <TouchableHighlight
+        style={styles.textButton}
+        onPress={() => loginWithGoogleOnPress(setPage)}
+      >
+        <AppText>log in with Google account</AppText>
       </TouchableHighlight>
     </Screen>
   );
@@ -72,6 +89,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     margin: 50,
+  },
+  textButton: {
+    marginVertical: 10,
   },
 });
 
