@@ -1,38 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 import { Searchbar } from "react-native-paper";
 import Card from "../components/Card";
+import connection from "../config/connection";
 
-function SearchScreen({ setPage }) {
-  const [searchQuery, setSearchQuery] = React.useState("");
+const getTickers = async (setTickers) => {
+  const url = connection.backendIp + "/api/tickers";
+  try {
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => setTickers(res));
+  } catch (err) {
+    console.log("Fail to fetch tickers list.", err);
+  }
+};
+
+function SearchScreen({ setPage, setStockId }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [tickers, setTickers] = useState([]);
+
+  useEffect(() => {
+    getTickers(setTickers);
+  }, []);
 
   const onChangeSearch = (query) => setSearchQuery(query);
 
   return (
     <Screen style={styles.container}>
-      <Searchbar
-        placeholder="Look Up Stock"
-        onChangeText={onChangeSearch}
+      <TextInput
+        placeholder="Search for stocks"
+        placeholderTextColor={colors.gray}
+        style={styles.postTextInput}
         value={searchQuery}
+        onChangeText={(text) => {
+          setSearchQuery(text);
+        }}
       />
 
-      <Card
-        stock="TSLA"
-        price="214"
-        percentage="0.5"
-        sentiment="85.5"
-        setPage={setPage}
-      />
-      <Card stock="BA" price="224" percentage="5.5" sentiment="45.5" />
-      <Card stock="AMZN" price="915" percentage="2.5" sentiment="99.3" />
-      <Card stock="APPL" price="14.2" percentage="0.5" sentiment="15.5" />
-      <Card stock="ZM" price="114" percentage="0.9" sentiment="66.2" />
-      <Card stock="MS" price="52.2" percentage="11.2" sentiment="35.7" />
-      <Card stock="GOOG" price="142.2" percentage="1.6" sentiment="66.8" />
-      <Card stock="INTC" price="67.5" percentage="12.3" sentiment="54.2" />
+      {tickers.map((item) => (
+        <Card
+          key={item}
+          stock={item}
+          setPage={setPage}
+          setStockId={setStockId}
+        />
+      ))}
     </Screen>
   );
 }
@@ -45,6 +61,16 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: colors.black,
     height: "100%",
+  },
+  postTextInput: {
+    borderBottomColor: colors.gray,
+    borderBottomWidth: 1,
+    textAlignVertical: "center",
+    width: "90%",
+    height: 55,
+    fontSize: 22,
+    marginTop: 10,
+    color: colors.white,
   },
 });
 

@@ -6,14 +6,15 @@ import LoginScreen from "./app/screens/LoginScreen";
 import MainScreen from "./app/screens/MainScreen";
 
 export default function App() {
-  const [page, setPage] = useState("main");
+  const [page, setPage] = useState("search");
+  const [stockId, setStockId] = useState("TSLA");
 
   const renderContent = (page) => {
     switch (page) {
       case "search":
-        return <SearchScreen setPage={setPage} />;
+        return <SearchScreen setPage={setPage} setStockId={setStockId} />;
       case "main":
-        return <MainScreen setPage={setPage} stockId="TSLA" />;
+        return <MainScreen setPage={setPage} stockId={stockId} />;
       case "login":
         return <LoginScreen setPage={setPage} />;
       case "register":

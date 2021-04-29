@@ -1,65 +1,87 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import AppText from "../components/AppText";
 
-const Card = ({ stock, price, percentage, sentiment, setPage = null }) => {
+import AppText from "../components/AppText";
+import colors from "../config/colors";
+import connection from "../config/connection";
+
+const getQuote = async (stockId, setQuote) => {
+  const url = connection.backendIp + "/api/quote/id/" + stockId;
+  try {
+    fetch(url)
+      .then((res) => res.json())
+      .then((res) => setQuote(res));
+  } catch (err) {
+    console.log("Fail to fetch qoute from backend.", err);
+  }
+};
+
+const Card = ({ stock, setPage, setStockId }) => {
+  const [quote, setQuote] = useState({ price: 0, percentage: 0 });
+
+  useEffect(() => {
+    getQuote(stock, setQuote);
+  }, []);
+
   return (
-    <View style={styles.card}>
-      <TouchableOpacity onPress={() => setPage("main")}>
-        <View style={styles.detailsContainer}>
-          <AppText style={{ marginBottom: 5 }}>{stock}</AppText>
-        </View>
-      </TouchableOpacity>
-      <View>
-        <View style={styles.rightSide}>
-          <AppText style={{ marginBottom: 5, marginRight: 5, fontSize: 22 }}>
-            ${price}
-          </AppText>
-          <AppText style={{ marginBottom: 5, fontSize: 14, color: "#b3005a" }}>
-            +{percentage}%
+    <TouchableOpacity
+      onPress={() => {
+        setStockId(stock);
+        setPage("main");
+      }}
+    >
+      <View style={styles.card}>
+        <View style={[styles.subContainer, { flex: 2 }]}>
+          <AppText style={{ marginBottom: 5, fontWeight: "900", fontSize: 20 }}>
+            {stock}
           </AppText>
         </View>
-        <View style={styles.rightSide}>
+
+        <View style={styles.subContainer}>
+          <AppText
+            style={{
+              marginBottom: 3,
+              marginRight: 5,
+              fontWeight: "bold",
+              fontSize: 20,
+              color: quote.percentage >= 0 ? colors.primary : colors.secondary,
+            }}
+          >
+            ${quote.price}
+          </AppText>
+        </View>
+        <View style={styles.subContainer}>
           <AppText
             style={{
               marginBottom: 5,
               marginRight: 5,
-              fontSize: 16,
-              color: "yellow",
+              fontSize: 18,
+              color: quote.percentage >= 0 ? colors.primary : colors.secondary,
             }}
           >
-            Sentiment:{sentiment}
+            {(quote.percentage >= 0 ? "+" : "") + quote.percentage + "%"}
           </AppText>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#212121",
-    // borderRadius: 25,
+    backgroundColor: colors.black,
     marginBottom: 5,
     marginTop: 5,
-    borderColor: "#660035",
-    borderWidth: 1,
-    // overflow:"hidden",
     flexDirection: "row",
     width: "100%",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
   },
-  detailsContainer: {
-    padding: 15,
-  },
-  rightSide: {
-    flex: 1,
+  subContainer: {
+    margin: 10,
     flexDirection: "row",
-    //   padding:3,
-  },
-  image: {
-    height: 200,
-    width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    height: 35,
   },
 });
 
